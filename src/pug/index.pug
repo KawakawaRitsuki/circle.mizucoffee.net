@@ -1,0 +1,15 @@
+doctype html
+html(lang='ja')
+  -
+    const info = {
+      title: "みずこーひー|ホームページ",
+      description: "同人サークル みずこーひー のホームページです。"
+    }
+  head
+    title=info.title
+    link(rel='stylesheet', href='./style.css', type='text/css')
+    include head
+  body
+    div.logo みずこーひー
+    main
+    footer &copy; 2018 mizucoffee.net
