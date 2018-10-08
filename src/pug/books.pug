@@ -1,0 +1,30 @@
+doctype html
+html(lang='ja')
+  -
+    const info = {
+      title: "Mizucoffee | " + data.name,
+      description: "同人サークル Mizucoffee のホームページです。"
+    }
+  head
+    title=info.title
+    link(rel='stylesheet', href='/style.css', type='text/css')
+    include head
+  body
+    include header
+    main
+      div
+        h1= data.name
+        img.thumb(src="./"+data.image)
+        div.description
+          | Description: #{data.description}
+          br
+          | ISDN:
+          a(href=`https://isdn.jp/${data.isdn.replace(/-/g,"")}`) #{data.isdn}
+          br
+          | Issue Date: #{data.date}
+          br
+          | Price: #{data.price}円
+          br
+          a(href="./errata/") 正誤表
+
+    include footer

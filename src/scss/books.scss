@@ -1,0 +1,35 @@
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.book {
+  width: 192px;
+  margin: 8px;
+}
+
+.image {
+  width: 192px;
+}
+
+.name {
+  text-align: center;
+}
+
+.thumb {
+  float: left;
+  margin: 8px 0;
+  width: 50%;
+}
+
+.description {
+  float: left;
+  width: calc(50% - 32px);
+  margin: 16px;
+}
+
+.book {
+  display: block;
+
+}

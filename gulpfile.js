@@ -2,6 +2,7 @@
 const gulp      = require('gulp'),
   $             = require('gulp-load-plugins')(),
   rimraf        = require('rimraf'),
+  path          = require('path'),
   fs            = require('fs')
 
 gulp.task('clean', () => rimraf.sync('dest/*'))
@@ -12,21 +13,53 @@ gulp.task('pug', () => {
     .on('error',e => {})
     .pipe(gulp.dest('./dest'))
 
-  fs.readdir('./src/books', (err, files) =>
+  fs.readdir('./src/books', (err, files) => {
     files.map(e => `./src/books/${e}`)
+      .filter(f => fs.statSync(f).isFile() && ( /.*\.jpg$/.test(f) || /.*\.png$/.test(f) ))
+      .forEach(f => {
+        gulp.src(f)
+          .pipe($.rename(`thumbnail${path.extname(f)}`))
+          .pipe(gulp.dest(`./dest/books/${f.match(".+/(.+?)\.[a-z]+([\?#;].*)?$")[1]}/`))
+      })
+
+    let bookdata = files.map(e => `./src/books/${e}`)
       .filter(f => fs.statSync(f).isFile() && /.*\.json$/.test(f))
-      .forEach((f) => {
+      .map((f) => {
+        let data = JSON.parse(fs.readFileSync(f))
+        data["image"] = `thumbnail${path.extname(data.image)}`
         gulp.src('src/pug/books.pug')
           .pipe($.data(ff =>
-            ({ data: JSON.parse(fs.readFileSync(f)) })
+            ({ data: data })
           ))
           .pipe($.pug({pretty: true}))
           .on('error',e => {})
-          .pipe($.rename(`${f.match(".+/(.+?)\.[a-z]+([\?#;].*)?$")[1]}.html`))
-          .pipe(gulp.dest('./dest/books'))
-        console.log(f)
+          .pipe($.rename(`index.html`))
+          .pipe(gulp.dest(`./dest/books/${path.basename(f,'.json')}/`))
+
+        gulp.src('src/pug/errata.pug')
+          .pipe($.data(ff =>
+            ({ data: data })
+          ))
+          .pipe($.pug({pretty: true}))
+          .pipe($.rename(`index.html`))
+          .pipe(gulp.dest(`./dest/books/${path.basename(f,'.json')}/errata/`))
+
+        data["id"] = path.basename(f,'.json')
+        return data
       })
-  )
+
+    console.log(bookdata)
+
+    gulp.src('./src/pug/books-index.pug')
+      .pipe($.data(f =>
+        ({ bookdata: bookdata })
+      ))
+      .pipe($.pug({pretty: true}))
+      .on('error',e => {})
+      .pipe($.rename('index.html'))
+      .pipe(gulp.dest('./dest/books'))
+
+  })
 })
 
 gulp.task('js', () => {

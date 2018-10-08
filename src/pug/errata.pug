@@ -2,7 +2,7 @@ doctype html
 html(lang='ja')
   -
     const info = {
-      title: "Mizucoffee | Homepage",
+      title: "Mizucoffee | data.name | Errata",
       description: "同人サークル Mizucoffee のホームページです。"
     }
   head
@@ -13,8 +13,7 @@ html(lang='ja')
     include header
     main
       div
-        h1 Welcome
-        | 突貫で作ったので雑です。
-        a(href="/books") Books
-
+        h1= data.name + " | 正誤表"
+        br
+        p= "今の所ありません"
     include footer

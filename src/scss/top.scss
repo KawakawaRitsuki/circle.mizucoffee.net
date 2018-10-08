@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #efdcd5;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+header {
+  width: 100%;
+  background-color: #321911;
+}
+
+.logo {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 8px 0;
+  color: #FFF;
+  font-size: 48px;
+  line-height: 1em;
+  display: block;
+  text-decoration: none;
+}
+
+footer {
+  line-height: 1em;
+  padding: 4px 0;
+  text-align: center;
+  width: 100%;
+  background-color: #321911;
+  color: #FFFFFF;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
